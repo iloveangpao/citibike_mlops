@@ -303,11 +303,12 @@ def citibike_pipeline():
     # --- Branch targets
     register = BashOperator(
         task_id="register",
-        bash_command="dvc add models/latest.pkl && dvc push",
+        bash_command="/home/airflow/.local/bin/dvc add models/latest.pkl && /home/airflow/.local/bin/dvc push",
         env={  # ensure DVC sees creds; Compose already provides these for you
             "AWS_ENDPOINT_URL": os.getenv("AWS_ENDPOINT_URL", ""),
             "AWS_ACCESS_KEY_ID": os.getenv("AWS_ACCESS_KEY_ID", ""),
             "AWS_SECRET_ACCESS_KEY": os.getenv("AWS_SECRET_ACCESS_KEY", ""),
+            "PATH": "/home/airflow/.local/bin:/usr/local/bin:/usr/bin:/bin",  # Ensure PATH is set
         },
     )
 
