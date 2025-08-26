@@ -1,0 +1,36 @@
+# Dockerfile.airflow
+FROM apache/airflow:3.0.3
+
+USER root
+
+# Install required packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-dev \
+    build-essential \
+    git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+# Install Python packages
+RUN pip install --no-cache-dir \
+    pandas \
+    scikit-learn \
+    dvc[s3] \
+    pyarrow \
+    psycopg2-binary
+
+# Initialize git and dvc
+RUN git config --global user.email "airflow@example.com" && \
+    git config --global user.name "Airflow"
+
+# Create models directory
+RUN mkdir -p /opt/airflow/models
+
+# Ensure DVC is in PATH and verify installation
+RUN echo 'export PATH=$PATH:/home/airflow/.local/bin' >> /home/airflow/.bashrc && \
+    /home/airflow/.local/bin/dvc --version
+
+
+
