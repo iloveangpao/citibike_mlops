@@ -144,7 +144,7 @@ docker exec -it citibike_mlops-postgres-1 psql -U airflow -d airflow -c "\dt"
    Conn Id: FASTAPI
    Conn Type: HTTP
    Host: http://fastapi
-   Port: 8080
+   Port: 8000
    ```
 
 3. Add Variables:
